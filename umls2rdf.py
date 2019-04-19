@@ -36,7 +36,7 @@ ONTOLOGY_HEADER = Template("""
 
 """)
 
-STY_URL = "http://purl.bioontology.org/ontologies/umls/sty/"
+STY_URL = "http://purl.bioontology.org/ontology/STY/"
 HAS_STY = "umls:hasSTY"
 HAS_AUI = "umls:aui"
 HAS_CUI = "umls:cui"
