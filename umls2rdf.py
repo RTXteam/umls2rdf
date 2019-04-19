@@ -40,7 +40,7 @@ STY_URL = "http://purl.bioontology.org/ontology/STY/"
 HAS_STY = "umls:hasSTY"
 HAS_AUI = "umls:aui"
 HAS_CUI = "umls:cui"
-HAS_TUI = "umls:tui"
+HAS_TUI = "umls:STY"
 
 MRCONSO_CODE = 13
 MRCONSO_AUI = 7
