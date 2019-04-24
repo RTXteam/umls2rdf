@@ -32,7 +32,8 @@ ONTOLOGY_HEADER = Template("""
     rdfs:comment "$comment" ;
     rdfs:label "$label" ;
     owl:imports <http://www.w3.org/2004/02/skos/core> ;
-    owl:versionInfo "$versioninfo" .
+    owl:versionInfo "$versioninfo" ;
+    umls:sver "$sver" .
 
 """)
 
@@ -80,6 +81,7 @@ MRRANK_RANK = 0
 MRSTY_CUI = 0
 MRSTY_TUI = 1
 
+MRSAB_SVER = 6
 MRSAB_LAT = 19
 
 UMLS_LANGCODE_MAP = {"eng" : "en", "fre" : "fr", "cze" : "cz", "fin" : "fi", "ger" : "de", "ita" : "it", "jpn" : "jp", "pol" : "pl", "por" : "pt", "rus" : "ru", "spa" : "es", "swe" : "sw", "scr" : "hr", "dut" : "nl", "lav" : "lv", "hun" : "hu", "kor" : "kr", "dan" : "da", "nor" : "no", "heb" : "he", "baq" : "eu"}
@@ -474,6 +476,7 @@ class UmlsOntology(object):
         self.cui_roots = set()
         self.lang = None
         self.ont_properties = dict()
+        self.sver = None
 
     def load_tables(self,limit=None):
         mrconso = UmlsTable("MRCONSO",self.con)
@@ -484,6 +487,8 @@ class UmlsOntology(object):
         mrsab  = UmlsTable("MRSAB", self.con)
         for sab_rec in mrsab.scan(filt="RSAB = '" + self.ont_code + "'", limit=1):
             self.lang = sab_rec[MRSAB_LAT].lower()
+            self.sver = sab_rec[MRSAB_SVER]
+
         mrconso_filt = "SAB = '%s' AND lat = '%s' AND SUPPRESS = 'N'"%(
                                                     self.ont_code,self.lang)
         for atom in mrconso.scan(filt=mrconso_filt,limit=limit):
@@ -645,6 +650,7 @@ class UmlsOntology(object):
            label = self.ont_code,
            comment = comment % self.ont_code,
            versioninfo = conf.UMLS_VERSION,
+           sver = self.sver,
            uri = self.ns
         )
         fout.write(ONTOLOGY_HEADER.substitute(header_values))
