@@ -22,7 +22,7 @@ PREFIXES = """
 @prefix owl:  <http://www.w3.org/2002/07/owl#> .
 @prefix rdfs:  <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
-@prefix umls: <http://purl.bioontology.org/ontology/> .
+@prefix umls: <https://identifiers.org/umls/> .
 
 """
 
@@ -31,13 +31,12 @@ ONTOLOGY_HEADER = Template("""
     a owl:Ontology ;
     rdfs:comment "$comment" ;
     rdfs:label "$label" ;
-    owl:imports <http://www.w3.org/2004/02/skos/core> ;
     owl:versionInfo "$versioninfo" ;
     umls:sver "$sver" .
 
 """)
 
-STY_URL = "http://purl.bioontology.org/ontology/STY/"
+STY_URL = "https://identifiers.org/umls/STY/"
 HAS_STY = "umls:hasSTY"
 HAS_AUI = "umls:aui"
 HAS_CUI = "umls:cui"
@@ -712,10 +711,15 @@ if __name__ == "__main__":
     if not os.path.isdir(conf.OUTPUT_FOLDER):
         raise Exception("Output folder '%s' not found."%conf.OUTPUT_FOLDER)
 
+    semtypes_ontology_stmt_ttl = """<%s>
+    a owl:Ontology ;
+    umls:sver "%s" .""" % (STY_URL, conf.UMLS_VERSION)
+
     sem_types = generate_semantic_types(con,with_roots=True)
     output_file = os.path.join(conf.OUTPUT_FOLDER,"umls_semantictypes.ttl")
     with codecs.open(output_file,"w","utf-8") as semfile:
         semfile.write(PREFIXES)
+        semfile.write(semtypes_ontology_stmt_ttl)
         semfile.write(sem_types)
         semfile.flush()
         semfile.close()
