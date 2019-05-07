@@ -485,7 +485,11 @@ class UmlsOntology(object):
             self.tree = None
         mrsab  = UmlsTable("MRSAB", self.con)
         for sab_rec in mrsab.scan(filt="RSAB = '" + self.ont_code + "'", limit=1):
-            self.lang = sab_rec[MRSAB_LAT].lower()
+            lat = sab_rec[MRSAB_LAT]
+            if lat is not None:
+                self.lang = sab_rec[MRSAB_LAT].lower()
+            else:
+                self.lang = 'ENG'
             self.sver = sab_rec[MRSAB_SVER]
 
         mrconso_filt = "SAB = '%s' AND lat = '%s' AND SUPPRESS = 'N'"%(
