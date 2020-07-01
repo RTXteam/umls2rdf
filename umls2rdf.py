@@ -18,6 +18,7 @@ PREFIXES = """
 @prefix rdfs:  <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 @prefix umls: <http://purl.bioontology.org/ontology/> .
+@prefix UMLSSC: <http://purl.bioontology.org/ontology/STY/> .
 
 """
 
@@ -32,7 +33,7 @@ ONTOLOGY_HEADER = Template("""
 """)
 
 STY_URL = "http://purl.bioontology.org/ontology/STY/"
-HAS_STY = "umls:hasSTY"
+HAS_STY = "UMLSSC:hasSTY"
 HAS_AUI = "umls:aui"
 HAS_CUI = "umls:cui"
 HAS_TUI = "umls:STY"
