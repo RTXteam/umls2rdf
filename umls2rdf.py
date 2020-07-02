@@ -17,8 +17,8 @@ PREFIXES = """
 @prefix owl:  <http://www.w3.org/2002/07/owl#> .
 @prefix rdfs:  <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
-@prefix umls: <http://purl.bioontology.org/ontology/> .
-@prefix UMLSSC: <http://purl.bioontology.org/ontology/STY/> .
+@prefix UMLS: <https://identifiers.org/umls:> .
+@prefix UMLS_STY: <http://purl.bioontology.org/ontology/STY/> .
 
 """
 
@@ -28,15 +28,15 @@ ONTOLOGY_HEADER = Template("""
     rdfs:comment "$comment" ;
     rdfs:label "$label" ;
     owl:versionInfo "$versioninfo" ;
-    umls:sver "$sver" .
+    UMLS:sver "$sver" .
 
 """)
 
 STY_URL = "http://purl.bioontology.org/ontology/STY/"
-HAS_STY = "UMLSSC:hasSTY"
-HAS_AUI = "umls:aui"
-HAS_CUI = "umls:cui"
-HAS_TUI = "umls:STY"
+HAS_STY = "UMLS:has_sty"
+HAS_AUI = "UMLS:has_aui"
+HAS_CUI = "UMLS:has_cui"
+HAS_TUI = "UMLS:has_tui"
 
 MRCONSO_CODE = 13
 MRCONSO_AUI = 7
@@ -726,7 +726,7 @@ if __name__ == "__main__":
 
     semtypes_ontology_stmt_ttl = """<%s>
     a owl:Ontology ;
-    umls:sver "%s" .""" % (STY_URL, conf.UMLS_VERSION)
+    UMLS:sver "%s" .""" % (STY_URL, conf.UMLS_VERSION)
 
     sem_types = generate_semantic_types(con, with_roots=True)
     output_file = os.path.join(conf.OUTPUT_FOLDER, "umls-semantictypes.ttl")
